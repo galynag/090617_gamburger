@@ -68,6 +68,10 @@ function addOption(mass,place) {
 };
 //функция отрисовки меню на странице
 function renderItems() {
+    $('<p/>', {
+        class: 'helper',
+        text: 'Основные блюда:'
+    }).appendTo('#gamb');
     for(var key in gamburgers) {
         $('<input/>', {
             id: gamburgers[key].id,
@@ -86,16 +90,15 @@ function renderItems() {
     $('<p/>', {
         class: 'helper',
         text: 'Обязательные дополнения:'
-    }).appendTo('#optional2');
-    addOption(optionalMustHave,'#optional2');
+    }).appendTo('#optional');
+    addOption(optionalMustHave,'#optional');
     $('<p/>', {
         class: 'helper',
         text: 'Не обязательные дополнения:'
-    }).appendTo('#optional');
-    addOption(optional,'#optional');
+    }).appendTo('#optional2');
+    addOption(optional,'#optional2');
 
 };
-
 renderItems();
 //функция отображения списка заказанной еды+сумма+калории
 function addFood() {
@@ -138,16 +141,16 @@ function delOrder() {
 };
 //функция добавления данных в localStorage
 function toLocalStorage() {
-    order.localStOrders.push(order.sum);
+    try { order.localStOrders.push(order.sum);
     var serialObj = JSON.stringify(order.localStOrders);
     localStorage.setItem('order',serialObj);
-    delOrder();
-// catch (e) {
-//         if (e == QUOTA_EXCEEDED_ERR) {
-//             alert('Превышен лимит');
-//         }
-//     }
-}
+    delOrder();}
+    catch (e) {
+        if (e == QUOTA_EXCEEDED_ERR) {
+            alert('Превышен лимит');
+        }
+    }
+};
 //функция вычисления средней суммы чеков по данным из localStorage
 function middleOrder() {
     $('#mid').empty();
@@ -164,9 +167,6 @@ function middleOrder() {
 }
 
 $('#addFood').on('click',addFood);
-
-
 $('#delOrder').on('click',delOrder);
 $('#pay').on('click',toLocalStorage);
-
 $('#middle-order').on('click',middleOrder);

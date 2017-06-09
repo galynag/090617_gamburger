@@ -42,6 +42,7 @@ li {
 #middle-order {
     background: palegoldenrod;
     float: right;
+    opacity: 0.6;
 }
 #middle-order:after,#gamb:before {
     content: '';
