@@ -51,3 +51,6 @@ li {
 .mistake {
     color: red;
 }
+#optional p {
+    margin-top: 20px;
+}

@@ -12,35 +12,33 @@ var gamburgers = {
             }
 };
 //массив дополнений к основным блюдам
-var optional = {
+var optionalMustHave = {
     'сыр' : {
         'cost' : 4,
         'ccal' : 25,
-        'mustHave' : true,
         'id' : 'op1'
     },
     'салат' : {
         'cost' : 5,
         'ccal' : 5,
-        'mustHave' : true,
         'id' : 'op2'
     },
     'ветчина' : {
         'cost' : 10,
         'ccal' : 50,
-        'mustHave' : true,
-        'id' : 'op3'
-    },
+         'id' : 'op3'
+    }
+};
+//массив необязательных дополнений
+var optional = {
     'соус' : {
         'cost' : 5,
         'ccal' : 0,
-        'mustHave' : false,
         'id' : 'op3'
     },
     'майонез' : {
         'cost' : 4,
         'ccal' : 10,
-        'mustHave' : false,
         'id' : 'op4'
     }
 };
@@ -51,6 +49,22 @@ var order = {
     'items' : [],
     'out' : '',
     'localStOrders':[]
+};
+function addOption(mass,place) {
+    for (var key in mass) {
+        $('<input/>', {
+            id: mass[key].id,
+            class: 'optItem',
+            value: key,
+            type: 'checkbox',
+            'data-ccal' : mass[key].ccal,
+            'data-cost': mass[key].cost,
+        }).appendTo(place);
+        $('<label/>', {
+            for: mass[key].id,
+            text: key+', '+ mass[key].cost + 'грн., '+mass[key].ccal+'ккал'
+        }).appendTo(place);
+    };
 };
 //функция отрисовки меню на странице
 function renderItems() {
@@ -68,32 +82,29 @@ function renderItems() {
             for: gamburgers[key].id,
             text: key+', '+ gamburgers[key].cost + 'грн., '+gamburgers[key].ccal+'ккал'
         }).appendTo('#gamb');
-    }
-    for (var key in optional) {
-        $('<input/>', {
-            id: optional[key].id,
-            class: 'optItem',
-            value: key,
-            type: 'checkbox',
-            'data-ccal' : optional[key].ccal,
-            'data-cost': optional[key].cost,
-        }).appendTo('#optional');
-        $('<label/>', {
-            for: optional[key].id,
-            text: ((optional[key].mustHave == true) ? '* ':'')+key+', '+ optional[key].cost + 'грн., '+optional[key].ccal+'ккал'
-        }).appendTo('#optional');
-    }
+    };
     $('<p/>', {
         class: 'helper',
-        text: 'Нужно обязательно выбрать хотя бы одно дополнение, отмеченное *'
+        text: 'Обязательные дополнения:'
+    }).appendTo('#optional2');
+    addOption(optionalMustHave,'#optional2');
+    $('<p/>', {
+        class: 'helper',
+        text: 'Не обязательные дополнения:'
     }).appendTo('#optional');
+    addOption(optional,'#optional');
 
-}
+};
+
 renderItems();
 //функция отображения списка заказанной еды+сумма+калории
 function addFood() {
-    delOrder();
+    if ($('#optional2 input:checked').length == 0) {
+        $('#out').append('<p class="mistake">Нужно выбрать минимум одно обязательное дополнение</p>');
+        return false;
+    };
     if ($('input:checked').length > 0) {
+        delOrder();
         console.log($('input:checked'));
     $('input:checked').map( function (index,el) {
         order.sum = order.sum + Number($(el).attr('data-cost'));
@@ -111,6 +122,7 @@ function addFood() {
     $('#out').append(order.out);
     $('#gamb').empty();
     $('#optional').empty();
+    $('#optional2').empty();
     renderItems();} else {
         $('#out').append('<p class="mistake">Вы не выбрали ни одного блюда</p>');
     }

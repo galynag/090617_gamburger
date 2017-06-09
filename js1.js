@@ -78,15 +78,15 @@ function renderItems() {
             'data-ccal' : optional[key].ccal,
             'data-cost': optional[key].cost,
 
-        }).appendTo('#optional');
+        }).appendTo('#optionalMustHave');
         $('<label/>', {
             for: optional[key].id,
             text: ((optional[key].mustHave == true) ? '* ':'')+key+', '+ optional[key].cost + 'грн., '+optional[key].ccal+'ккал'
-        }).appendTo('#optional');
+        }).appendTo('#optionalMustHave');
     }
     $('<p/>', {
         text: '* нужно обязательно выбрать хотя бы одно дополнение, отмеченное *'
-    }).appendTo('#optional');
+    }).appendTo('#optionalMustHave');
 }
 renderItems();
 
