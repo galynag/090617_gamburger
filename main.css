@@ -2,9 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Consolas,sans-serif;
+    font-size: 1em;
 }
 #main-box {
-    width: 330px;
+    width: 400px;
     margin: 30px auto;
 }
 input {
@@ -12,5 +14,40 @@ input {
 }
 label {
     display: inline-block;
-    width: 81%;
+    width: 84%;
+}
+#gamb, #optional {
+    margin: 30px auto;
+}
+.helper {
+    color: grey;
+    font-style: italic;
+}
+button {
+    width: 165px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    display: block;
+    margin: 15px;
+    outline-style: none;
+    text-align: center;
+}
+button:hover {
+    background: darkgray;
+    color: #fff;
+}
+li {
+    margin: 0 25px;
+}
+#middle-order {
+    background: palegoldenrod;
+    float: right;
+}
+#middle-order:after,#gamb:before {
+    content: '';
+    clear: both;
+    display: block;
+}
+.mistake {
+    color: red;
 }
